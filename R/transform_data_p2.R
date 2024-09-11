@@ -1,19 +1,22 @@
 #### Transforming Data Part 2 ####
 library(readxl)
 library(dplyr)
-library(ggplot2)
 
 # Distinct & Select (reducing data rows or columns) ----
 df <- read_excel("Data/icebreaker_answers.xlsx")
 df <- df %>% bind_rows(slice_tail(df))
 tail(df)
 
-df %>% group_by_all() %>% 
-  mutate(duplicated = n() > 1) %>% 
-  filter(duplicated)
+# df %>% group_by_all() %>% 
+#  mutate(duplicated = n() > 1) %>% 
+#  filter(duplicated)
 
 df <- df |> distinct()
 tail(df)
+
+df_travel <- df %>% 
+  select(travel_mode:travel_distance)
+df_travel
 
 df_travel <- df %>% 
   select(travel_mode:travel_distance)
