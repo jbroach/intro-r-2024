@@ -98,6 +98,27 @@ daily %>%
   facet_wrap(~Year, scales="free")
 
 boxplot(daily$daily ~ daily$Year)
+daily %>% ggplot(aes(x=Year, y=daily)) + 
+  geom_boxplot()
+
+daily %>% filter(Year >= 2019) %>% 
+  ggplot(aes(x=Year, y=daily)) + 
+  geom_boxplot()
+
+month.name[1:5]
+daily %>% filter(Year >= 2019 & Month %in% month.name[1:5]) %>% 
+  ggplot(aes(x=Year, y=daily)) + 
+  geom_boxplot()
+
+daily %>% filter(Year >= 2019 & Month %in% month.name[1:5]) %>% 
+  group_by(Year) %>% 
+  summarize(ADB = mean(daily))
+
+daily %>% filter(Year >= 2019) %>% 
+  ggplot(aes(x=Date, y=daily)) + 
+  geom_line() + 
+  geom_vline(xintercept = as.Date("2020-03-23"), col="red")
+
 boxplot(daily %>% filter(!Year %in% c(2013, 2017:2018)) %>% pull(daily) ~ 
           daily %>% filter(!Year %in% c(2013, 2017:2018)) %>% pull(Year))
 boxplot(daily[!daily$Year %in% c(2013, 2017:2018), "daily"] ~ 
