@@ -14,8 +14,10 @@ tail(df)
 df <- df |> distinct()
 tail(df)
 
+# SELECT columns
+
 df_travel <- df %>% 
-  select(travel_mode:travel_distance)
+  select(travel_mode, travel_time, travel_distance)
 df_travel
 
 df_travel <- df %>% 
@@ -38,6 +40,7 @@ df
 df <- df %>% rename(travel_mph = travel_speed)  
 df
 
+# if/else
 df <- df %>% mutate(long_trip = if_else(travel_distance > 20, 
                                         TRUE, FALSE))
 df %>% select(-serial_comma)
@@ -51,6 +54,11 @@ df <- df %>% mutate(slow_trip = case_when(
   .default = 0  # All FALSE or NA 
 ))
 df %>% filter(slow_trip == 0)
+
+
+# arrange
+df %>% filter(slow_trip == 0) %>%
+  arrange(travel_mph)
 
 df %>% select(-serial_comma, -long_trip) %>% 
   arrange(travel_mode, desc(travel_mph)) %>% 
